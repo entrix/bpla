@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="hbm">
+
+    <class name="Wind" table="WIND">
+        <id name="id" column="WIND_ID">
+            <generator class="increment"/>
+        </id>
+        <property name="pointId" column="POINT_ID"/>
+        <property name="type"/>
+        <property name="dateTime" type="timestamp" column="DATETIME"/>
+        <property name="prediction"/>
+        <property name="course"/>
+        <property name="force"/>
+    </class>
+
+</hibernate-mapping>

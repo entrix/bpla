@@ -12,7 +12,15 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class WareHouseService {
-    public WareHouseService() {
+
+    static WareHouseService wareHouseService = null;
+
+    static {
+        wareHouseService = new WareHouseService();
+    }
+
+    public static WareHouseService getWareHouseService() {
+        return wareHouseService;
     }
 
     public WareHouse createWareHouse(Long id, String storType, String address) {
@@ -33,10 +41,6 @@ public class WareHouseService {
 
     public List<WareHouse> listWareHouses() {
         return null;
-    }
-
-    public boolean clear() {
-        return false;
     }
 
     public void printAll() {

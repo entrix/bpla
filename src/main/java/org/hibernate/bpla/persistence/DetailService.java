@@ -15,7 +15,14 @@ import java.util.List;
  */
 public class DetailService {
 
-    public DetailService() {
+    static DetailService detailService = null;
+
+    static {
+        detailService = new DetailService();
+    }
+
+    public static DetailService getDetailService() {
+        return detailService;
     }
 
     public Detail createDetail(Long id, Long detTypeId, String name, Integer raids, Integer weight, String state, String size) {
@@ -43,10 +50,6 @@ public class DetailService {
     }
 
     public boolean addDetailBpla(Long detailId, Long id) {
-        return false;
-    }
-
-    public boolean clear() {
         return false;
     }
 

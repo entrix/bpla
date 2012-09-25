@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class WareHouseServiceTests extends TestCase {
 
-    private WareHouseService wareHouseService = new WareHouseService();
+    private WareHouseService wareHouseService = WareHouseService.getWareHouseService();
 
     private WareHouse wareHouse;
 
@@ -68,7 +68,6 @@ public class WareHouseServiceTests extends TestCase {
 
     @After
     public void tearDown() throws Exception {
-        wareHouseService.clear();
         super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

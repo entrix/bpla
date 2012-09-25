@@ -28,6 +28,10 @@ public class HibernateUtil {
     }
 
     public static Session getSession() {
+        if (sessionFactory.isClosed()) {
+            return null;
+        }
+
         return sessionFactory.openSession();
     }
 

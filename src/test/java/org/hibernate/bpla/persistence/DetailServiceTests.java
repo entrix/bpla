@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class DetailServiceTests extends TestCase {
 
-    private DetailService detailService = new DetailService();
+    private DetailService detailService = DetailService.getDetailService();
 
     private Detail detail;
 
@@ -78,7 +78,7 @@ public class DetailServiceTests extends TestCase {
     @Test
     public void testPrintService() throws Exception {
         Bpla bpla = new Bpla(0L);
-        BplaService bplaService = new BplaService();
+        BplaService bplaService = BplaService.getBplaService();
         bplaService.addBpla(bpla);
         Boolean result = detailService.addDetailBpla(detail.getId(), bpla.getId());
         assertTrue("objects isn't binded", result);
@@ -93,7 +93,6 @@ public class DetailServiceTests extends TestCase {
 
     @After
     public void tearDown() throws Exception {
-        detailService.clear();
         super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

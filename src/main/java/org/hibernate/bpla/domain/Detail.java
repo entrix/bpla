@@ -23,9 +23,18 @@
  */
 package org.hibernate.bpla.domain;
 
+import org.hibernate.annotations.Subselect;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@SequenceGenerator(name="SEQ", sequenceName = "SEQ")
+
+@Entity
+@Subselect("SELECT  detail.det_id, det_type.det_type_id, detail.state, detail.raids, det_type.det_name, det_type.det_size, det_type.det_weight\n" +
+        "        FROM detail\n" +
+        "        JOIN det_type ON detail.det_type_id = det_type.det_type_id")
 public class Detail {
 	private Long id;
 
@@ -37,13 +46,18 @@ public class Detail {
     private Integer weight;
     private String  size;
 
-    private Set bplas = new HashSet();
+    private Set<Bpla> bplas = new HashSet();
 
 	public Detail() {
 		// this form used by Hibernate
 	}
 
-    public Set getBplas() {
+    public Detail(Long id) {
+        this.setId(id);
+    }
+    
+    @ManyToMany
+    public Set<Bpla> getBplas() {
         return bplas;
     }
 
@@ -51,6 +65,8 @@ public class Detail {
         this.bplas = bplas;
     }
 
+
+    @Column(name = "det_size")
     public String getSize() {
         return size;
     }
@@ -59,6 +75,7 @@ public class Detail {
         this.size = size;
     }
 
+    @Column(name = "det_weight")
     public Integer getWeight() {
         return weight;
     }
@@ -67,6 +84,7 @@ public class Detail {
         this.weight = weight;
     }
 
+    @Column(name = "det_name")
     public String getName() {
 
         return name;
@@ -76,6 +94,7 @@ public class Detail {
         this.name = name;
     }
 
+    @Column(name = "raids")
     public Integer getRaids() {
         return raids;
     }
@@ -84,6 +103,7 @@ public class Detail {
         this.raids = raids;
     }
 
+    @Column(name = "state")
     public String getState() {
 
         return state;
@@ -93,6 +113,7 @@ public class Detail {
         this.state = state;
     }
 
+    @Column(name = "det_type_id")
     public Long getDetTypeId() {
 
         return detTypeId;
@@ -102,12 +123,20 @@ public class Detail {
         this.detTypeId = detTypeId;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
+    @Column(name = "det_id")
     public Long getId() {
 
         return id;
     }
 
     public void setId(Long id) {
+        if (id < 0) {
+            //value is not possible
+            return;
+        }
+
         this.id = id;
     }
 }

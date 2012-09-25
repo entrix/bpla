@@ -1,7 +1,6 @@
 package org.hibernate.bpla.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,27 +12,41 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 
+@SequenceGenerator(name="SEQ", sequenceName = "SEQ")
+
 @Entity
-@Table(name = "BPLA")
+@Table(name = "bpla")
 public class Bpla {
     private Long id;
 
     private String state;
     private String location;
-    private Set details = new HashSet();
+    private Set<Detail> details = new HashSet();
 
     public Bpla() {
     }
+    
+    public Bpla(Long id) {
+        this.setId(id);
+    }
 
-
-    public Set getDetails() {
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name="aggregate",
+            joinColumns=
+            @JoinColumn(name="bpla_id", referencedColumnName="bpla_id"),
+            inverseJoinColumns=
+            @JoinColumn(name="det_id", referencedColumnName="det_id")
+    )
+    public Set<Detail> getDetails() {
         return details;
     }
 
-    public void setDetails(Set details) {
+    public void setDetails(Set<Detail> details) {
         this.details = details;
     }
 
+    @Column(name = "location")
     public String getLocation() {
 
         return location;
@@ -43,6 +56,7 @@ public class Bpla {
         this.location = location;
     }
 
+    @Column(name = "state")
     public String getState() {
 
         return state;
@@ -52,12 +66,20 @@ public class Bpla {
         this.state = state;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
+    @Column(name = "bpla_id")
     public Long getId() {
 
         return id;
     }
 
     public void setId(Long id) {
+        if (id < 0) {
+            //value is not possible
+            return;
+        }
+
         this.id = id;
     }
 }

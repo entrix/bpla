@@ -30,14 +30,7 @@ public class Bpla {
         this.setId(id);
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name="aggregate",
-            joinColumns=
-            @JoinColumn(name="bpla_id", referencedColumnName="bpla_id"),
-            inverseJoinColumns=
-            @JoinColumn(name="det_id", referencedColumnName="det_id")
-    )
+    @ManyToMany
     public Set<Detail> getDetails() {
         return details;
     }
@@ -81,5 +74,17 @@ public class Bpla {
         }
 
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return this.getId() + "\n" +
+                this.getLocation() + "\n" +
+                this.getState() + "\n" +
+                this.getDetails() + "\n";
+    }
+
+    public void setNullId() {
+        this.id = null;
     }
 }

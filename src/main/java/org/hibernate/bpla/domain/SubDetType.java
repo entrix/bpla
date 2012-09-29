@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "det_type")
 public class SubDetType {
 
-    private Long    detTypeId;
+    private Long    id;
 
     private String  name;
     private Integer weight;
@@ -25,12 +25,12 @@ public class SubDetType {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
     @Column(name = "det_type_id")
-    public Long getDetTypeId() {
-        return detTypeId;
+    public Long getId() {
+        return id;
     }
 
-    public void setDetTypeId(Long detTypeId) {
-        this.detTypeId = detTypeId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Column(name = "det_name")

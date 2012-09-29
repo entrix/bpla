@@ -64,6 +64,8 @@
         <mapping class="org.hibernate.bpla.domain.Bpla"/>
         <mapping class="org.hibernate.bpla.domain.Detail"/>
         <mapping class="org.hibernate.bpla.domain.WareHouse"/>
+        <mapping class="org.hibernate.bpla.domain.SubDetType"/>
+        <mapping class="org.hibernate.bpla.domain.SubDetail"/>
     </session-factory>
 
 </hibernate-configuration>

@@ -24,6 +24,7 @@
 package org.hibernate.bpla.domain;
 
 import org.hibernate.annotations.Subselect;
+import org.hibernate.annotations.Synchronize;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -32,9 +33,10 @@ import java.util.Set;
 @SequenceGenerator(name="SEQ", sequenceName = "SEQ")
 
 @Entity
-@Subselect("SELECT  detail.det_id, det_type.det_type_id, detail.state, detail.raids, det_type.det_name, det_type.det_size, det_type.det_weight\n" +
+@Subselect("SELECT  detail.det_id, det_type.det_type_id as det_type_id, detail.state as state, detail.raids as raids, det_type.det_name as name, det_type.det_size as size, det_type.det_weight as weight\n" +
         "        FROM detail\n" +
         "        JOIN det_type ON detail.det_type_id = det_type.det_type_id")
+@Synchronize( {"detail", "det_type"} )
 public class Detail {
 	private Long id;
 
@@ -55,8 +57,25 @@ public class Detail {
     public Detail(Long id) {
         this.setId(id);
     }
-    
-    @ManyToMany
+
+    public Detail(SubDetail subDetail, SubDetType subDetType) {
+        this.id = subDetail.getId();
+        this.detTypeId = subDetType.getId();
+        this.raids = subDetail.getRaids();
+        this.state = subDetail.getState();
+        this.name = subDetType.getName();
+        this.weight = subDetType.getWeight();
+        this.size = subDetType.getSize();
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name="aggregate",
+            joinColumns=
+            @JoinColumn(name="det_id", referencedColumnName="det_id"),
+            inverseJoinColumns=
+            @JoinColumn(name="bpla_id", referencedColumnName="bpla_id")
+    )
     public Set<Bpla> getBplas() {
         return bplas;
     }
@@ -66,7 +85,7 @@ public class Detail {
     }
 
 
-    @Column(name = "det_size")
+    @Column(name = "size")
     public String getSize() {
         return size;
     }
@@ -75,7 +94,7 @@ public class Detail {
         this.size = size;
     }
 
-    @Column(name = "det_weight")
+    @Column(name = "weight")
     public Integer getWeight() {
         return weight;
     }
@@ -84,7 +103,7 @@ public class Detail {
         this.weight = weight;
     }
 
-    @Column(name = "det_name")
+    @Column(name = "name")
     public String getName() {
 
         return name;
@@ -124,7 +143,6 @@ public class Detail {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")
     @Column(name = "det_id")
     public Long getId() {
 

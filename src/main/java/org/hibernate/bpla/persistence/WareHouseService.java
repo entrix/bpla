@@ -1,6 +1,9 @@
 package org.hibernate.bpla.persistence;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.bpla.domain.WareHouse;
+import org.hibernate.bpla.util.HibernateUtil;
 
 import java.util.List;
 
@@ -15,6 +18,8 @@ public class WareHouseService {
 
     static WareHouseService wareHouseService = null;
 
+    private Session session = null;
+    
     static {
         wareHouseService = new WareHouseService();
     }
@@ -23,27 +28,74 @@ public class WareHouseService {
         return wareHouseService;
     }
 
-    public WareHouse createWareHouse(Long id, String storType, String address) {
-        return null;
+    public WareHouse createWareHouse(Long id, String storType, String address) throws Exception {
+        WareHouse wareHouse = new WareHouse();
+        wareHouse.setAddress(address);
+        wareHouse.setStorType(storType);
+        utilObject(0, wareHouse);
+        return wareHouse;
     }
 
-    public boolean addWareHouse(WareHouse wareHouse) {
-        return false;
+    public void addWareHouse(WareHouse wareHouse) throws Exception {
+        utilObject(0, wareHouse);
     }
 
-    public boolean deleteWareHouse(Long id) {
-        return false;
+    public void deleteWareHouse(WareHouse wareHouse) throws Exception {
+        utilObject(2, wareHouse);
     }
 
-    public WareHouse findWareHouse(Long id) {
-        return null;
+    public WareHouse findWareHouse(Long id) throws Exception {
+        return (WareHouse) utilObject(1, id);
     }
 
-    public List<WareHouse> listWareHouses() {
-        return null;
+    private List<WareHouse> listWareHouses() throws Exception {
+        return (List<WareHouse>) utilObject(3, null);
     }
 
     public void printAll() {
 
     }
+
+    public void startSession() {
+        session = HibernateUtil.getSession();
+    }
+
+    public void endSession() {
+        session.close();
+    }
+
+    public Object utilObject(Integer operation, Object object) throws Exception {
+        Object result = null;
+        Transaction tx = null;
+//        WareHouse WareHouse = null;
+        try {
+            tx = session.beginTransaction();
+            switch (operation) {
+                case 0:
+                    session.saveOrUpdate((WareHouse) object);
+                    break;
+                case 1:
+                    result = session.load(WareHouse.class, (Long) object);
+                    break;
+                case 2:
+                    session.delete((WareHouse) object);
+                    break;
+                case 3:
+                    result = session.createQuery("from WareHouse").list();
+                    break;
+                case 4:
+                    session.clear();
+                    break;
+            }
+            tx.commit();
+        }
+        catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw e;
+        }
+        return result;
+    }
+
 }

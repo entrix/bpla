@@ -11,7 +11,9 @@ import java.util.List;
 
 public class BplaService {
 
-    static BplaService bplaService = null;
+    private static BplaService bplaService = null;
+
+    private Session session = null;
 
     static {
         bplaService = new BplaService();
@@ -22,7 +24,7 @@ public class BplaService {
     }
 
     public Bpla createBpla(Long id, String location, String state) throws Exception {
-        Bpla bpla = new Bpla(id);
+        Bpla bpla = new Bpla();
         bpla.setLocation(location);
         bpla.setState(state);
         utilObject(0, bpla);
@@ -45,15 +47,17 @@ public class BplaService {
         return (List<Bpla>) utilObject(3, null);
     }
 
-    public void addBplaDetail(Long id, Long detailId) throws Exception {
+    public void addBplaDetail(Long id, Long detailId, Long detTypeId) throws Exception {
+//        session.beginTransaction();
         Bpla bpla = findBpla(id);
-        Detail detail = DetailService.getDetailService().findDetail(detailId);
+        Detail detail = DetailService.getDetailService().findDetail(detailId, detTypeId);
         if (!bpla.getDetails().contains(detail)) {
             bpla.getDetails().add(detail);
         }
         if (!detail.getBplas().contains(bpla)) {
             detail.getBplas().add(bpla);
         }
+//        session.getTransaction().commit();
     }
 
     public void printAll() throws Exception {
@@ -68,6 +72,14 @@ public class BplaService {
         }
     }
 
+    public void startSession() {
+        session = HibernateUtil.getSession();
+    }
+
+    public void endSession() {
+        session.close();
+    }
+
     /**
      * 0 - saveOrUpdate
      * 1 - load
@@ -79,12 +91,24 @@ public class BplaService {
      */
     public Object utilObject(Integer operation, Object object) throws Exception {
         Object result = null;
-        Session session = HibernateUtil.getSession();
         Transaction tx = null;
+//        Bpla bpla = null;
         try {
             tx = session.beginTransaction();
             switch (operation) {
                 case 0:
+//                    Boolean isNull = false;
+//                    bpla = (Bpla) object;
+//                    try {
+//                        session.createQuery("select bpla_id from Bpla where bpla_id = :bplaId")
+//                                .setLong("bplaId", bpla.getId());
+//                    }
+//                    catch (Exception e) {
+//                        isNull = true;
+//                    }
+//                    if (isNull) {
+//                        bpla.setNullId();
+//                    }
                     session.saveOrUpdate((Bpla) object);
                     break;
                 case 1:
@@ -107,9 +131,6 @@ public class BplaService {
                 tx.rollback();
             }
             throw e;
-        }
-        finally {
-            //session.close();
         }
         return result;
     }

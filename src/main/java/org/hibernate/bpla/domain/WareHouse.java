@@ -36,12 +36,12 @@ public class WareHouse {
         this.address = address;
     }
 
+    @Column(name = "stor_type")
     public String getStorType() {
 
         return storType;
     }
 
-    @Column(name = "stor_type")
     public void setStorType(String storType) {
         this.storType = storType;
     }

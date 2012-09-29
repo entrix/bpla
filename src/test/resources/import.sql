@@ -18,7 +18,7 @@ DROP TABLE detail IF EXISTS
 
 
 
---DROP TABLE det_type
+DROP TABLE det_type IF EXISTS
 
 
 

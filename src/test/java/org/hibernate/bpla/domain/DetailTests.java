@@ -17,12 +17,12 @@ import java.util.Set;
  */
 public class DetailTests extends TestCase {
     
-    private Detail detail;
+    private CrossDetail detail;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        detail = new Detail();
+        detail = new CrossDetail();
     }
     
     @Test
@@ -52,10 +52,6 @@ public class DetailTests extends TestCase {
         for (Long i : new Long[] {1L, 2L, 3L, 4L, 5L}) {
             set.add(new Bpla(i));
         }
-        detail.setBplas(set);
-        assertEquals("условие вхождения", true, set.containsAll(detail.getBplas()));
-        detail.getBplas().removeAll(set);
-        assertEquals("условие неизбыточности", true, detail.getBplas().isEmpty());
     }
 
     @After

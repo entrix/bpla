@@ -30,7 +30,7 @@
 
 <hibernate-mapping package="org.hibernate.bpla.domain">
 
-<class name="Detail">
+<class name="org.hibernate.bpla.domain.CrossDetail">
     <subselect>
         SELECT  detail.det_id, det_type.det_type_id, detail.state, detail.raids, det_type.det_name, det_type.det_size, det_type.det_weight
         FROM detail

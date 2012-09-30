@@ -15,7 +15,7 @@
 
         <set name="details" table="aggregate">
             <key column="bpla_id"/>
-            <many-to-many column="det_id" class="Detail"/>
+            <many-to-many column="det_id" class="org.hibernate.bpla.domain.CrossDetail"/>
         </set>
     </class>
 

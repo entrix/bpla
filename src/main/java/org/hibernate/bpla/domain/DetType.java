@@ -1,6 +1,8 @@
 package org.hibernate.bpla.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,13 +16,24 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "det_type")
-public class SubDetType {
+public class DetType {
 
     private Long    id;
 
     private String  name;
     private Integer weight;
     private String  size;
+
+    private Set<Detail> details = new HashSet();
+
+    @OneToMany(mappedBy = "detType")
+    public Set<Detail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(Set<Detail> details) {
+        this.details = details;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ")

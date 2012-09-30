@@ -30,7 +30,14 @@ public class Bpla {
         this.setId(id);
     }
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Detail.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name="aggregate",
+            joinColumns=
+            @JoinColumn(name="bpla_id", referencedColumnName="bpla_id"),
+            inverseJoinColumns=
+            @JoinColumn(name="det_id", referencedColumnName="det_id")
+    )
     public Set<Detail> getDetails() {
         return details;
     }

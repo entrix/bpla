@@ -2,13 +2,11 @@ package org.hibernate.bpla.persistence;
 
 import junit.framework.TestCase;
 import org.hibernate.ObjectNotFoundException;
-import org.hibernate.bpla.domain.Bpla;
+import org.hibernate.bpla.domain.Detail;
 import org.hibernate.bpla.domain.Detail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,10 +27,10 @@ public class DetailServiceTests extends TestCase {
         detail = new Detail();
         detail.setDetTypeId(1L);
         detail.setRaids(2);
-        detail.setWeight(3);
-        detail.setName("name");
+//        detail.setWeight(3);
+//        detail.setName("name");
         detail.setState("state");
-        detail.setSize("size");
+//        detail.setSize("size");
         DetailService.getDetailService().startSession();
     }
 
@@ -42,34 +40,34 @@ public class DetailServiceTests extends TestCase {
         //check field's identity
 //        assertEquals("id isn't identity", detail.getId(), detailOrigin.getId());
 //        assertEquals("detTypeId isn't identity", detail.getDetTypeId(), detailOrigin.getDetTypeId());
-        assertEquals("state isn't identity", detail.getName(), detailOrigin.getName());
+//        assertEquals("state isn't identity", detail.getName(), detailOrigin.getName());
         assertEquals("raids isn't identity", detail.getRaids(), detailOrigin.getRaids());
-        assertEquals("weight isn't identity", detail.getWeight(), detailOrigin.getWeight());
+//        assertEquals("weight isn't identity", detail.getWeight(), detailOrigin.getWeight());
         assertEquals("state isn't identity", detail.getState(), detailOrigin.getState());
-        assertEquals("size isn't identity", detail.getSize(), detailOrigin.getSize());
+//        assertEquals("size isn't identity", detail.getSize(), detailOrigin.getSize());
         //check stored object's identity
-        Detail detailLoad   = detailService.findDetail(detailOrigin.getId(), detailOrigin.getDetTypeId());
+        Detail detailLoad   = detailService.findDetail(detailOrigin.getId());
         assertEquals("id isn't identity", detailOrigin.getId(), detailLoad.getId());
         assertEquals("detTypeId isn't identity", detailOrigin.getDetTypeId(), detailLoad.getDetTypeId());
-        assertEquals("state isn't identity", detailOrigin.getName(), detailLoad.getName());
+//        assertEquals("state isn't identity", detailOrigin.getName(), detailLoad.getName());
         assertEquals("raids isn't identity", detailOrigin.getRaids(), detailLoad.getRaids());
-        assertEquals("weight isn't identity", detailOrigin.getWeight(), detailLoad.getWeight());
+//        assertEquals("weight isn't identity", detailOrigin.getWeight(), detailLoad.getWeight());
         assertEquals("state isn't identity", detailOrigin.getState(), detailLoad.getState());
-        assertEquals("size isn't identity", detailOrigin.getSize(), detailLoad.getSize());
+//        assertEquals("size isn't identity", detailOrigin.getSize(), detailLoad.getSize());
     }
 
     @Test
     public void testAddService() throws Exception {
         detailService.addDetail(detail);
         //check stored object's identity
-        Detail detailLoad   = detailService.findDetail(detail.getId(), detail.getDetTypeId());
+        Detail detailLoad   = detailService.findDetail(detail.getId());
         assertEquals("id isn't identity", detail.getId(), detailLoad.getId());
         assertEquals("detTypeId isn't identity", detail.getDetTypeId(), detailLoad.getDetTypeId());
-        assertEquals("state isn't identity", detail.getName(), detailLoad.getName());
+//        assertEquals("state isn't identity", detail.getName(), detailLoad.getName());
         assertEquals("raids isn't identity", detail.getRaids(), detailLoad.getRaids());
-        assertEquals("weight isn't identity", detail.getWeight(), detailLoad.getWeight());
+//        assertEquals("weight isn't identity", detail.getWeight(), detailLoad.getWeight());
         assertEquals("state isn't identity", detail.getState(), detailLoad.getState());
-        assertEquals("size isn't identity", detail.getSize(), detailLoad.getSize());
+//        assertEquals("size isn't identity", detail.getSize(), detailLoad.getSize());
     }
 
     @Test
@@ -77,15 +75,15 @@ public class DetailServiceTests extends TestCase {
         detailService.addDetail(detail);
         detailService.deleteDetail(detail);
         //check for deletion
-        Detail detailLoad = detailService.findDetail(detail.getId(), detail.getDetTypeId());
+        Detail detailLoad = detailService.findDetail(detail.getId());
         try {
             if (detailLoad != null) {
                 assertNotSame("detTypeId isn't identity", detail.getDetTypeId(), detailLoad.getDetTypeId());
-                assertNotSame("state isn't identity", detail.getName(), detailLoad.getName());
+//                assertNotSame("state isn't identity", detail.getName(), detailLoad.getName());
                 assertNotSame("raids isn't identity", detail.getRaids(), detailLoad.getRaids());
-                assertNotSame("weight isn't identity", detail.getWeight(), detailLoad.getWeight());
+//                assertNotSame("weight isn't identity", detail.getWeight(), detailLoad.getWeight());
                 assertNotSame("state isn't identity", detail.getState(), detailLoad.getState());
-                assertNotSame("size isn't identity", detail.getSize(), detailLoad.getSize());
+//                assertNotSame("size isn't identity", detail.getSize(), detailLoad.getSize());
                 throw new Exception();
             }
 
@@ -98,7 +96,7 @@ public class DetailServiceTests extends TestCase {
     public void testFindService() throws Exception {
         detailService.addDetail(detail);
         //check for find
-        Detail detailLoad = detailService.findDetail(detail.getId(), detail.getDetTypeId());
+        Detail detailLoad = detailService.findDetail(detail.getId());
         assertNotNull("object isn't found", detailLoad);
     }
 

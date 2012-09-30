@@ -15,7 +15,7 @@ public class Main {
         BplaService mgr = new BplaService();
 
         if (args[0].equals("fly")) {
-            //mgr.createAndStoreEvent("My Detail", new Date());
+            //mgr.createAndStoreEvent("My CrossDetail", new Date());
         }
         else if (args[0].equals("list")) {
             mgr.printAll();

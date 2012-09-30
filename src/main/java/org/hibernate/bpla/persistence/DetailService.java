@@ -3,9 +3,8 @@ package org.hibernate.bpla.persistence;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.bpla.domain.Bpla;
-import org.hibernate.bpla.domain.SubDetType;
 import org.hibernate.bpla.domain.Detail;
-import org.hibernate.bpla.domain.SubDetail;
+import org.hibernate.bpla.domain.DetType;
 import org.hibernate.bpla.util.HibernateUtil;
 
 import java.util.ArrayList;
@@ -36,40 +35,35 @@ public class DetailService {
         Detail detail = new Detail();
         detail.setDetTypeId(detTypeId);
         detail.setRaids(raids);
-        detail.setWeight(weight);
-        detail.setName(name);
+
+//        detail.setWeight(weight);
+//        detail.setName(name);
         detail.setState(state);
-        detail.setSize(size);
+//        detail.setSize(size);
         return (Detail) utilObject(0, detail);
     }
 
     public void addDetail(Detail detail) throws Exception {
-        utilObject(0, detail);;
+        utilObject(0, detail);
     }
 
     public void deleteDetail(Detail detail) throws Exception {
         utilObject(2, detail);
     }
-    
-    public Detail findDetail(Long id, Long detTypeId) throws Exception {
-        List list = new ArrayList<Long>(2);
-        list.add(id);
-        list.add(detTypeId);
-        return (Detail) utilObject(1, list);
+
+    public Detail findDetail(Long id) throws Exception {
+        return (Detail) utilObject(1, id);
     }
 
     public List<Detail> listDetails() throws Exception {
         return (List<Detail>) utilObject(3, null);
     }
 
-    public void addDetailBpla(Long bplaId, Long id, Long detTypeId) throws Exception {
-        Detail detail = findDetail(id, detTypeId);
-        Bpla bpla= BplaService.getBplaService().findBpla(bplaId);
+    public void addDetailBpla(Long bplaId, Long id) throws Exception {
+        Detail detail = findDetail(id);
+        Bpla bpla = BplaService.getBplaService().findBpla(bplaId);
         if (!bpla.getDetails().contains(detail)) {
             bpla.getDetails().add(detail);
-        }
-        if (!detail.getBplas().contains(bpla)) {
-            detail.getBplas().add(bpla);
         }
     }
 
@@ -77,11 +71,11 @@ public class DetailService {
         List<Detail> details = listDetails();
         for (int i = 0; i < details.size(); i++) {
             Detail detail = details.get(i);
-            System.out.println("Detail: " + detail.getName());
-            for (Object objExt : detail.getBplas()) {
-                System.out.println("    Location:" + ((Bpla) objExt).getLocation());
-                System.out.println("    State   :" + ((Bpla) objExt).getState());
-            }
+            System.out.println("Detail: " + detail.getDetType().getName());
+//            for (Object objExt : detail.getBplas()) {
+//                System.out.println("    Location:" + ((Bpla) objExt).getLocation());
+//                System.out.println("    State   :" + ((Bpla) objExt).getState());
+//            }
         }
     }
 
@@ -105,9 +99,8 @@ public class DetailService {
     public Object utilObject(Integer operation, Object object) throws Exception {
         Object result = null;
         Transaction tx = null;
-        Detail detail;
-        SubDetail subDetail = new SubDetail();
-        SubDetType subDetType = new SubDetType();
+        Detail detail = new Detail();
+        DetType detType = new DetType();
         try {
             tx = session.beginTransaction();
             switch (operation) {
@@ -123,33 +116,27 @@ public class DetailService {
                     }
 
                     if (!isNull) {
-                        subDetail.setId(detail.getId());
+                        detail.setId(detail.getId());
                     }
-                    subDetail.setDetTypeId(detail.getDetTypeId());
-                    subDetail.setRaids(detail.getRaids());
-                    subDetail.setState(detail.getState());
+                    detail.setDetTypeId(detail.getDetTypeId());
+                    detail.setRaids(detail.getRaids());
+                    detail.setState(detail.getState());
 
-                    if (!isNull) {
-                        subDetType.setId(detail.getDetTypeId());
-                    }
-                    subDetType.setName(detail.getName());
-                    subDetType.setWeight(detail.getWeight());
-                    subDetType.setSize(detail.getSize());
+//                    if (!isNull) {
+//                        detType.setId(detail.getDetTypeId());
+//                    }
+//                    detType.setName(detail.getName());
+//                    detType.setWeight(detail.getWeight());
+//                    detType.setSize(detail.getSize());
 
-                    session.saveOrUpdate(subDetType);
-                    session.saveOrUpdate(subDetail);
-                    detail.setId(subDetail.getId());
-                    detail.setDetTypeId(subDetType.getId());
+//                    session.saveOrUpdate(detType);
+                    session.saveOrUpdate(detail);
+//                    detail.setId(subDetail.getId());
+//                    detail.setDetTypeId(detType.getId());
                     result = detail;
                     break;
                 case 1:
-                    subDetail = (SubDetail) session.load(SubDetail.class, ((List<Long>) object).get(0));
-                    subDetType = (SubDetType) session.load(SubDetType.class, ((List<Long>) object).get(1));
-                    try {
-                        result = new Detail(subDetail, subDetType);
-                    } catch (Exception e) {
-                        result = null;
-                    }
+                    result = (Detail) session.load(Detail.class, (Long) object);
                     break;
                 case 2:
                     detail = (Detail) object;
@@ -158,13 +145,13 @@ public class DetailService {
 //                    subDetail.setRaids(detail.getRaids());
 //                    subDetail.setState(detail.getState());
 //
-//                    subDetType.setId(detail.getDetTypeId());
-//                    subDetType.setName(detail.getName());
-//                    subDetType.setWeight(detail.getWeight());
-//                    subDetType.setSize(detail.getSize());
+//                    detType.setId(detail.getDetTypeId());
+//                    detType.setName(detail.getName());
+//                    detType.setWeight(detail.getWeight());
+//                    detType.setSize(detail.getSize());
 
-                    session.delete(session.load(SubDetail.class, detail.getId()));
-                    session.delete(session.load(SubDetType.class, detail.getDetTypeId()));
+                    session.delete(session.load(Detail.class, detail.getId()));
+//                    session.delete(session.load(DetType.class, detail.getDetTypeId()));
                     break;
                 case 3:
                     result = session.createQuery("from Detail").list();

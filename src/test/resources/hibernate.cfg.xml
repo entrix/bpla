@@ -58,14 +58,14 @@
         <property name="hibernate.hbm2ddl.import_files" >import.sql</property>
 
         <!--<mapping resource="hbm/Bpla.hbm.xml"/>-->
-        <!--<mapping resource="hbm/Detail.hbm.xml"/>-->
+        <!--<mapping resource="hbm/CrossDetail.hbm.xml"/>-->
         <!--<mapping resource="hbm/WareHouse.hbm.xml"/>-->
 
         <mapping class="org.hibernate.bpla.domain.Bpla"/>
-        <mapping class="org.hibernate.bpla.domain.Detail"/>
+        <mapping class="org.hibernate.bpla.domain.CrossDetail"/>
         <mapping class="org.hibernate.bpla.domain.WareHouse"/>
-        <mapping class="org.hibernate.bpla.domain.SubDetType"/>
-        <mapping class="org.hibernate.bpla.domain.SubDetail"/>
+        <mapping class="org.hibernate.bpla.domain.DetType"/>
+        <mapping class="org.hibernate.bpla.domain.Detail"/>
     </session-factory>
 
 </hibernate-configuration>

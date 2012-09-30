@@ -50,12 +50,9 @@ public class BplaService {
     public void addBplaDetail(Long id, Long detailId, Long detTypeId) throws Exception {
 //        session.beginTransaction();
         Bpla bpla = findBpla(id);
-        Detail detail = DetailService.getDetailService().findDetail(detailId, detTypeId);
+        Detail detail = new Detail(); //DetailService.getDetailService().findDetail(detailId, detTypeId);
         if (!bpla.getDetails().contains(detail)) {
             bpla.getDetails().add(detail);
-        }
-        if (!detail.getBplas().contains(bpla)) {
-            detail.getBplas().add(bpla);
         }
 //        session.getTransaction().commit();
     }
@@ -66,8 +63,11 @@ public class BplaService {
             Bpla bpla = bplas.get(i);
             System.out.println("Bpla: " + bpla.getState());
             for (Object objExt : bpla.getDetails()) {
-                System.out.println("    Detail:" + ((Detail) objExt).getName());
-                System.out.println("    Size  :" + ((Detail) objExt).getSize());
+                System.out.println("    CrossDetail:" + ((Detail) objExt).getDetType().getName());
+                System.out.println("    Size  :" + ((Detail) objExt).getDetType().getSize());
+                System.out.println("    Weight  :" + ((Detail) objExt).getDetType().getWeight());
+                System.out.println("    State  :" + ((Detail) objExt).getState());
+                System.out.println("    Raids  :" + ((Detail) objExt).getRaids());
             }
         }
     }

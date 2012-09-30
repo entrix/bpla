@@ -3,7 +3,6 @@ package org.hibernate.bpla.persistence;
 import junit.framework.TestCase;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.bpla.domain.Bpla;
-import org.hibernate.bpla.domain.Detail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -80,7 +79,7 @@ public class BplaServiceTests extends TestCase {
 
 //    @Test @Ignore
 //    public void testAddBplaDetailService() throws Exception {
-//        Detail detail = new Detail(0L);
+//        CrossDetail detail = new CrossDetail(0L);
 //        detail.setDetTypeId(1L);
 //        detail.setRaids(2);
 //        detail.setWeight(3);
@@ -104,14 +103,12 @@ public class BplaServiceTests extends TestCase {
 //        bplaService.addBplaDetail(bpla.getId(), detail.getId(), detail.getDetTypeId());
 //        //check for binding
 //        Bpla bplaLoad     = bplaService.findBpla(bpla.getId());
-//        Detail detailLoad = detailService.findDetail(detail.getId(), detail.getDetTypeId());
+//        CrossDetail detailLoad = detailService.findDetail(detail.getId(), detail.getDetTypeId());
 //        //assertSame("binded objects not same", detail, bplaLoad.getDetails().toArray(new Bpla[0])[0]);
-//        //assertSame("binded objects not same", bpla, detailLoad.getBplas().toArray(new Detail[0])[0]);
+//        //assertSame("binded objects not same", bpla, detailLoad.getBplas().toArray(new CrossDetail[0])[0]);
 //
 //        System.out.println("------> " + bplaLoad.getDetails().contains(detail));
-//        System.out.println("------> " + detailLoad.getBplas().contains(bpla));
 //        assertTrue("binded objects not same", bplaLoad.getDetails().contains(detail));
-//        assertTrue("binded objects not same", detailLoad.getBplas().contains(bpla));
 //
 //    }
 

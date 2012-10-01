@@ -1,6 +1,9 @@
 package org.hibernate.bpla.persistence;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.bpla.domain.Bpla;
 import org.hibernate.bpla.domain.Detail;
@@ -17,18 +20,34 @@ import java.util.List;
  * Time: 23:13
  * To change this template use File | Settings | File Templates.
  */
+
 public class DetailService {
 
     private static DetailService detailService = null;
 
     private Session session;
 
+    private SessionFactory sessionFactory;
     static {
         detailService = new DetailService();
     }
 
     public static DetailService getDetailService() {
         return detailService;
+    }
+
+    protected final Log logger = LogFactory.getLog(getClass());
+
+    public DetailService() {
+    }
+
+    public DetailService(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+        this.detailService = this;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public Detail createDetail(Long id, Long detTypeId, String name, Integer raids, Integer weight, String state, String size) throws Exception {
@@ -80,7 +99,7 @@ public class DetailService {
     }
 
     public void startSession() {
-        session = HibernateUtil.getSession();
+        session = sessionFactory.getCurrentSession();
     }
 
     public void endSession() {
@@ -102,7 +121,7 @@ public class DetailService {
         Detail detail = new Detail();
         DetType detType = new DetType();
         try {
-            tx = session.beginTransaction();
+//            tx = session.beginTransaction();
             switch (operation) {
                 case 0:
                     Boolean isNull = false;
@@ -160,7 +179,7 @@ public class DetailService {
                     session.clear();
                     break;
             }
-            tx.commit();
+//            tx.commit();
         }
         catch (Exception e) {
             if (tx != null) {

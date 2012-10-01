@@ -30,7 +30,13 @@ public class Bpla {
         this.setId(id);
     }
 
-    @ManyToMany(targetEntity = Detail.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public Bpla(Long id, String state, String location) {
+        this.id = id;
+        this.state = state;
+        this.location = location;
+    }
+
+    @ManyToMany(targetEntity = Detail.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name="aggregate",
             joinColumns=

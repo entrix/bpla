@@ -1,6 +1,7 @@
 package org.hibernate.bpla.persistence;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.bpla.domain.WareHouse;
 import org.hibernate.bpla.util.HibernateUtil;
@@ -19,13 +20,21 @@ public class WareHouseService {
     static WareHouseService wareHouseService = null;
 
     private Session session = null;
-    
+
+    private SessionFactory sessionFactory;
     static {
         wareHouseService = new WareHouseService();
     }
 
     public static WareHouseService getWareHouseService() {
         return wareHouseService;
+    }
+
+    public WareHouseService() {
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public WareHouse createWareHouse(Long id, String storType, String address) throws Exception {
@@ -57,7 +66,7 @@ public class WareHouseService {
     }
 
     public void startSession() {
-        session = HibernateUtil.getSession();
+        session = sessionFactory.getCurrentSession();
     }
 
     public void endSession() {
@@ -69,7 +78,7 @@ public class WareHouseService {
         Transaction tx = null;
 //        WareHouse WareHouse = null;
         try {
-            tx = session.beginTransaction();
+//            tx = session.beginTransaction();
             switch (operation) {
                 case 0:
                     session.saveOrUpdate((WareHouse) object);
@@ -87,7 +96,7 @@ public class WareHouseService {
                     session.clear();
                     break;
             }
-            tx.commit();
+//            tx.commit();
         }
         catch (Exception e) {
             if (tx != null) {

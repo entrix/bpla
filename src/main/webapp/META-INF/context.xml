@@ -1,0 +1,26 @@
+<!-- Tomcat context descriptor used for specifying a custom ClassLoader -->
+<!-- Useful for allowing web-app wide (as opposed to VM or container wide) class instrumentation -->
+<Context path="/bpla" reloadable="false">
+	<!-- Tomcat 6.x or higher -->
+	<!--
+	<Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
+	-->
+
+	<!-- Tomcat 5.5.x (higher then 5.5.20) -->
+	<!--
+	<Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader" useSystemClassLoaderAsParent="false"/>
+	-->
+
+    <Resource name="bpla"
+              auth="Container"
+              type="javax.sql.DataSource"
+              maxActive="20"
+              maxIdle="2"
+              maxWait="1000"
+              username="sa"
+              password=""
+              driverClassName="org.hsqldb.jdbcDriver"
+              url="jdbc:hsqldb:mem:bpla"
+              connectionProperties="defaultNChar=true"
+            />
+</Context>

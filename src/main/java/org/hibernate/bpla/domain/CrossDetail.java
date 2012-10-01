@@ -23,20 +23,20 @@
  */
 package org.hibernate.bpla.domain;
 
-import org.hibernate.annotations.Subselect;
-import org.hibernate.annotations.Synchronize;
+//import org.hibernate.annotations.Subselect;
+//import org.hibernate.annotations.Synchronize;
 
 import javax.persistence.*;
 
-@SequenceGenerator(name="SEQ", sequenceName = "SEQ")
+//@SequenceGenerator(name="SEQ", sequenceName = "SEQ")
 
-@Entity
-@Subselect("SELECT  detail.det_id, det_type.det_type_id as det_type_id, detail.state as state, detail.raids as raids, det_type.det_name as name, det_type.det_size as size, det_type.det_weight as weight\n" +
-        "        FROM detail\n" +
-        "        JOIN det_type ON detail.det_type_id = det_type.det_type_id")
-@Synchronize( {"detail", "det_type"} )
+//@Entity
+//@Subselect("SELECT  detail.det_id, det_type.det_type_id as det_type_id, detail.state as state, detail.raids as raids, det_type.det_name as name, det_type.det_size as size, det_type.det_weight as weight\n" +
+//        "        FROM detail\n" +
+//        "        JOIN det_type ON detail.det_type_id = det_type.det_type_id")
+//@Synchronize( {"detail", "det_type"} )
 public class CrossDetail {
-	private Long id;
+	private Long    id;
 
     private Long    detTypeId;
 	private String  state;
@@ -65,7 +65,7 @@ public class CrossDetail {
     }
 
 
-    @Column(name = "size")
+//    @Column(name = "size")
     public String getSize() {
         return size;
     }
@@ -74,7 +74,7 @@ public class CrossDetail {
         this.size = size;
     }
 
-    @Column(name = "weight")
+//    @Column(name = "weight")
     public Integer getWeight() {
         return weight;
     }
@@ -83,7 +83,7 @@ public class CrossDetail {
         this.weight = weight;
     }
 
-    @Column(name = "name")
+//    @Column(name = "name")
     public String getName() {
 
         return name;
@@ -93,7 +93,7 @@ public class CrossDetail {
         this.name = name;
     }
 
-    @Column(name = "raids")
+//    @Column(name = "raids")
     public Integer getRaids() {
         return raids;
     }
@@ -102,7 +102,7 @@ public class CrossDetail {
         this.raids = raids;
     }
 
-    @Column(name = "state")
+//    @Column(name = "state")
     public String getState() {
 
         return state;
@@ -112,7 +112,7 @@ public class CrossDetail {
         this.state = state;
     }
 
-    @Column(name = "det_type_id")
+//    @Column(name = "det_type_id")
     public Long getDetTypeId() {
 
         return detTypeId;
@@ -122,8 +122,8 @@ public class CrossDetail {
         this.detTypeId = detTypeId;
     }
 
-    @Id
-    @Column(name = "det_id")
+//    @Id
+//    @Column(name = "det_id")
     public Long getId() {
 
         return id;

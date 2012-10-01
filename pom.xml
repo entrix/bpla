@@ -26,20 +26,23 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hibernate-tutorial-hbm</artifactId>
+    <artifactId>bpla</artifactId>
     <groupId>org.hibernate.tutorials</groupId>
-    <version>$version</version>
 
     <name>Hibernate hbm.xml Tutorial</name>
+    <packaging>war</packaging>
+    <version>1.0.0</version>
+
     <description>Hibernate tutorial illustrating the use of native APIs and hbm.xml for mapping metadata</description>
 
     <properties>
-        <!-- Skip artifact deployment -->
-        <!--<maven.deploy.skip>true</maven.deploy.skip>-->
-		<hibernate>3.6.10.Final</hibernate>
-		<slf4j>1.6.5</slf4j>
-        <junit>4.8.1</junit>
-        <h2>1.3.167</h2>
+         <!--Skip artifact deployment-->
+        <maven.deploy.skip>true</maven.deploy.skip>
+		<hibernate.version>3.6.10-Final</hibernate.version>
+		<junit>4.8.1</junit>
+        <h2>1.3.168</h2>
+        <slf4j.version>1.5.6</slf4j.version>
+        <spring.version>3.1.0.RELEASE</spring.version>
     </properties>
 
     <!--<modules>-->
@@ -72,6 +75,36 @@
                         </includes>
                     </configuration>
                 </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>bpla</warName>
+                    <!--<outputDirectory>C:\Program Files\apache-tomcat-7.0.26\webapps</outputDirectory>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>sources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <testResources>
             <testResource>
@@ -97,15 +130,22 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate}</version>
+            <version>3.6.10.Final</version>
+            <exclusions>
+                <!-- Exclude Commons Logging in favor of SLF4j -->
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>com.springsource.org.apache.commons.logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Hibernate uses jboss-logging for logging, for the tutorials we will use the sl4fj-simple backend -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>slf4j-simple</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
 
         <!-- The tutorials use JUnit test cases to illustrate usage -->
         <dependency>
@@ -116,11 +156,11 @@
         </dependency>
 
         <!-- The tutorials use the H2 in-memory database -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.h2database</groupId>-->
+            <!--<artifactId>h2</artifactId>-->
+            <!--<version>${h2}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>ehcache</groupId>
@@ -129,22 +169,350 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>3.6.3.Final</version>
-        </dependency>
-
-        <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.12.1.GA</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>com.springsource.org.apache.commons.collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.mod4j.org.apache.commons</groupId>-->
+            <!--<artifactId>logging</artifactId>-->
+            <!--<version>1.0.4</version>-->
+        <!--</dependency>-->
+
+
+        <!-- Spring -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.context</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+            <!--<exclusions>-->
+                <!--&lt;!&ndash; Exclude Commons Logging in favor of SLF4j &ndash;&gt;-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.apache.commons</groupId>-->
+                    <!--<artifactId>com.springsource.org.apache.commons.logging</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.orm</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.oxm</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.web.servlet</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.aspects</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; AspectJ &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.aspectj</groupId>-->
+            <!--<artifactId>com.springsource.org.aspectj.weaver</artifactId>-->
+            <!--<version>1.6.8.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;<groupId>org.springframework</groupId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<artifactId>spring-hibernate3</artifactId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<version>2.0.8</version>&ndash;&gt;-->
+        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash; Logging &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>com.springsource.slf4j.api</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>com.springsource.slf4j.log4j</artifactId>-->
+            <!--<version>${slf4j.version}</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.log4j</groupId>-->
+            <!--<artifactId>com.springsource.org.apache.log4j</artifactId>-->
+            <!--<version>1.2.15</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+
+
+        <!--&lt;!&ndash; DataSource &ndash;&gt;-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>com.springsource.org.apache.commons.dbcp</artifactId>
+            <version>1.2.2.osgi</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>com.springsource.org.apache.commons.pool</artifactId>
+            <version>1.5.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>com.springsource.org.hsqldb</artifactId>
+            <version>1.8.0.10</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>com.springsource.org.h2</artifactId>
+            <version>1.0.71</version>
+        </dependency>
+        <!-- MySQL JDBC Connector -->
+        <!--
+            <dependency> <groupId>com.mysql.jdbc</groupId>
+            <artifactId>com.springsource.com.mysql.jdbc</artifactId>
+            <version>5.1.6</version> </dependency>
+        -->
+
+        <!--&lt;!&ndash; Hibernate &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>com.springsource.org.hibernate</artifactId>-->
+            <!--<version>3.3.2.GA</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>com.springsource.org.hibernate.annotations.common</artifactId>-->
+            <!--<version>3.3.0.ga</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; JPA &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>javax.persistence</groupId>-->
+            <!--<artifactId>com.springsource.javax.persistence</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; Toplink JPA Provider &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.oracle.toplink.essentials</groupId>-->
+            <!--<artifactId>com.springsource.oracle.toplink.essentials</artifactId>-->
+            <!--<version>2.0.0.b41-beta2</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; Hibernate JPA Provider &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>com.springsource.org.hibernate.ejb</artifactId>-->
+            <!--<version>3.4.0.GA</version>-->
+            <!--<exclusions>-->
+                <!--&lt;!&ndash; Exclude Commons Logging in favor of SLF4j &ndash;&gt;-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.apache.commons</groupId>-->
+                    <!--<artifactId>com.springsource.org.apache.commons.logging</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; Open JPA Provider &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.openjpa</groupId>-->
+            <!--<artifactId>com.springsource.org.apache.openjpa</artifactId>-->
+            <!--<version>1.1.0</version>-->
+            <!--<exclusions>-->
+                <!--&lt;!&ndash; Exclude Commons Logging in favor of SLF4j &ndash;&gt;-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.apache.commons</groupId>-->
+                    <!--<artifactId>com.springsource.org.apache.commons.logging</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; Servlet &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>com.springsource.javax.servlet</artifactId>-->
+            <!--<version>2.5.0</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>com.springsource.javax.servlet.jsp</artifactId>-->
+            <!--<version>2.1.0</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>com.springsource.javax.servlet.jsp.jstl</artifactId>-->
+            <!--<version>1.2.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.taglibs</groupId>-->
+            <!--<artifactId>com.springsource.org.apache.taglibs.standard</artifactId>-->
+            <!--<version>1.1.2</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; Rome RSS &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.sun.syndication</groupId>-->
+            <!--<artifactId>com.springsource.com.sun.syndication</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.jdom</groupId>-->
+            <!--<artifactId>com.springsource.org.jdom</artifactId>-->
+            <!--<version>1.1.0</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; JAXB &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>javax.xml.bind</groupId>-->
+            <!--<artifactId>com.springsource.javax.xml.bind</artifactId>-->
+            <!--<version>2.1.7</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; Test dependencies &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.test</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>javax.transaction</groupId>-->
+            <!--<artifactId>com.springsource.javax.transaction</artifactId>-->
+            <!--<version>1.1.0</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.0.0.RC3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>3.0.0.RC3</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<version>3.8.1</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>net.sf.jt400</groupId>-->
+            <!--<artifactId>jt400</artifactId>-->
+            <!--<version>6.6</version>-->
+            <!--<type>jar</type>-->
+            <!--<scope>compile</scope>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>com.springsource.org.hibernate</artifactId>
+            <version>3.3.2.GA</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>com.springsource.org.hibernate.annotations</artifactId>
+            <version>3.4.0.GA</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>com.springsource.javax.servlet</artifactId>
+            <version>2.5.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>com.springsource.javax.servlet.jsp.jstl</artifactId>
+            <version>1.2.0</version>
+            <!--<type>jar</type>-->
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>com.springsource.javax.persistence</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>com.springsource.javax.transaction</artifactId>
+            <version>1.1.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>com.springsource.slf4j.log4j</artifactId>
+            <version>1.5.6</version>
+        </dependency>
     </dependencies>
 
     <repositories>
+        <!--<repository>-->
+            <!--<id>com.springsource.repository.bundles.release</id>-->
+            <!--<name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>-->
+            <!--<url>http://repository.springsource.com/maven/bundles/release</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>com.springsource.repository.bundles.external</id>-->
+            <!--<name>SpringSource Enterprise Bundle Repository - External Releases</name>-->
+            <!--<url>http://repository.springsource.com/maven/bundles/external</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>com.springsource.repository.bundles.milestone</id>-->
+            <!--<name>SpringSource Enterprise Bundle Repository - SpringSource Milestones</name>-->
+            <!--<url>http://repository.springsource.com/maven/bundles/milestone</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>com.springsource.repository.bundles.snapshot</id>-->
+            <!--<name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>-->
+            <!--<url>http://repository.springsource.com/maven/bundles/snapshot</url>-->
+        <!--</repository>-->
         <repository>
-            <id>JBoss repository</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+            <id>com.springsource.repository.bundles.milestone</id>
+            <name>EBR Spring Milestone Repository</name>
+            <url>http://repository.springsource.com/maven/bundles/milestone</url>
+        </repository>
+        <repository>
+            <id>org.springframework.maven.milestone</id>
+            <name>Maven Central Compatible Spring Milestone Repository</name>
+            <url>http://maven.springframework.org/milestone</url>
+        </repository>
+        <repository>
+            <id>com.springsource.repository.bundles.release</id>
+            <name>EBR Spring Release Repository</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+        <repository>
+            <id>com.springsource.repository.bundles.external</id>
+            <name>EBR External Release Repository</name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
         </repository>
     </repositories>
 </project>

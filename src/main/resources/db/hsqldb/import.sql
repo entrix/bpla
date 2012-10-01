@@ -30,14 +30,19 @@ DROP TABLE warehouse IF EXISTS
 
 
 
-CREATE TABLE aggregate (det_id INTEGER NULL IDENTITY PRIMARY KEY , bpla_id INTEGER NULL)
-CREATE TABLE bpla ( bpla_id INTEGER NOT NULL IDENTITY PRIMARY KEY, state VARCHAR2(40) NULL , location VARCHAR2(40) NULL )
---CREATE TABLE bpla_journal (record_id  INTEGER NULL IDENTITY PRIMARY KEY, bpla_id  INTEGER NULL)
---CREATE TABLE det_journal(record_id INTEGER NULL IDENTITY PRIMARY KEY, det_id  INTEGER NULL)
-CREATE TABLE det_type (det_type_id  INTEGER NOT NULL IDENTITY PRIMARY KEY, det_name CHAR(50) NULL , det_weight INTEGER NULL , det_size VARCHAR2(40) NULL)
-CREATE TABLE detail (det_id INTEGER NOT NULL IDENTITY PRIMARY KEY, det_type_id  INTEGER NULL, state   VARCHAR2(40) NULL ,  raids INTEGER NULL )
---CREATE TABLE records (record_id INTEGER NOT NULL IDENTITY PRIMARY KEY, rec_state VARCHAR2(40) NULL , date_time DATE NULL , storage_id INTEGER NULL , notes  VARCHAR2(200) NULL )
-CREATE TABLE warehouse (storage_id  INTEGER NOT NULL IDENTITY PRIMARY KEY, stor_type  VARCHAR2(20) NULL , address  VARCHAR2(20) NULL )
+CREATE  TABLE aggregate (det_id INTEGER IDENTITY NOT NULL, bpla_id INTEGER NULL)
+-- SET TABLE aggregate SOURCE "encoding=UTF-8"
+CREATE  TABLE bpla ( bpla_id INTEGER NOT NULL IDENTITY, state VARCHAR(40) NULL , location VARCHAR(40) NULL )
+-- SET TABLE bpla SOURCE "encoding=UTF-8"
+-- --CREATE TABLE bpla_journal (record_id  INTEGER NULL IDENTITY PRIMARY KEY, bpla_id  INTEGER NULL)
+-- --CREATE TABLE det_journal(record_id INTEGER NULL IDENTITY PRIMARY KEY, det_id  INTEGER NULL)
+CREATE  TABLE det_type (det_type_id  INTEGER NOT NULL IDENTITY, det_name CHAR(50) NULL , det_weight INTEGER NULL , det_size VARCHAR(40) NULL)
+-- SET TABLE det_type SOURCE "encoding=UTF-8"
+CREATE  TABLE detail (det_id INTEGER NOT NULL IDENTITY, det_type_id  INTEGER NULL, state   VARCHAR(40) NULL ,  raids INTEGER NULL )
+-- SET TABLE detail SOURCE "encoding=UTF-8"
+--CREATE TABLE records (record_id INTEGER NOT NULL IDENTITY PRIMARY KEY, rec_state VARCHAR(40) NULL , date_time DATE NULL , storage_id INTEGER NULL , notes  VARCHAR(200) NULL )
+CREATE  TABLE warehouse (storage_id  INTEGER NOT NULL IDENTITY, stor_type  VARCHAR(20) NULL , address  VARCHAR(20) NULL )
+-- SET TABLE warehouse SOURCE "encoding=UTF-8"
 
 insert into det_type(det_type_id, det_name, det_weight, det_size) values (1,'фюзеляж',1000,'0.45x0.3x0.2')
 insert into det_type(det_type_id, det_name, det_weight, det_size) values (2,'левая консоль крыла',1000,'0.7x0.03x0.2')

@@ -1,6 +1,7 @@
 package org.hibernate.bpla.persistence;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.bpla.domain.Bpla;
 import org.hibernate.bpla.domain.DetType;
@@ -22,12 +23,18 @@ public class DetTypeService {
 
     private Session session;
 
+    private SessionFactory sessionFactory;
+
     static {
         detTypeService = new DetTypeService();
     }
 
     public static DetTypeService getDetTypeService() {
         return detTypeService;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public DetType createDetType(Long id, String name, Integer weight, String size) throws Exception {
@@ -80,7 +87,7 @@ public class DetTypeService {
     }
 
     public void startSession() {
-        session = HibernateUtil.getSession();
+        session = sessionFactory.getCurrentSession();
     }
 
     public void endSession() {
@@ -101,7 +108,7 @@ public class DetTypeService {
         Transaction tx = null;
         DetType detType = new DetType();
         try {
-            tx = session.beginTransaction();
+//            tx = session.beginTransaction();
             switch (operation) {
                 case 0:
                     Boolean isNull = false;
@@ -138,7 +145,7 @@ public class DetTypeService {
                     session.clear();
                     break;
             }
-            tx.commit();
+//            tx.commit();
         }
         catch (Exception e) {
             if (tx != null) {

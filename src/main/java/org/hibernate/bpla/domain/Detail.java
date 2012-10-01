@@ -1,7 +1,9 @@
 package org.hibernate.bpla.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,9 +25,15 @@ public class Detail {
     private String  state;
     private Integer raids;
 
+    private Set<Bpla> bplas = new HashSet();
+
     private DetType detType;
 
     public Detail() {
+    }
+
+    public Detail(Long id) {
+        this.id = id;
     }
 
     public Detail(Long id, String state, Integer raids) {
@@ -72,8 +80,16 @@ public class Detail {
         this.raids = raids;
     }
 
+    @ManyToMany(targetEntity = Bpla.class, mappedBy = "details", fetch = FetchType.EAGER)
+    public Set<Bpla> getBplas() {
+        return bplas;
+    }
 
-    @ManyToOne(targetEntity = DetType.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public void setBplas(Set<Bpla> bplas) {
+        this.bplas = bplas;
+    }
+
+    @ManyToOne(targetEntity = DetType.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="det_type_id", insertable=false, updatable=false)
     public DetType getDetType() {
         return detType;

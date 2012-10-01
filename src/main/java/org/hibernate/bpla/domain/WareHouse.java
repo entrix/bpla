@@ -27,6 +27,12 @@ public class WareHouse {
         this.id = id;
     }
 
+    public WareHouse(Long id, String storType, String address) {
+        this.id = id;
+        this.storType = storType;
+        this.address = address;
+    }
+
     @Column(name = "address")
     public String getAddress() {
         return address;

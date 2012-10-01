@@ -17,12 +17,12 @@ import java.util.Set;
  */
 public class DetailTests extends TestCase {
     
-    private CrossDetail detail;
+    private Detail detail;
     
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        detail = new CrossDetail();
+        detail = new Detail();
     }
     
     @Test
@@ -35,23 +35,18 @@ public class DetailTests extends TestCase {
         //state
         detail.setState("state");
         assertEquals("state", detail.getState());
-        //name
-        detail.setName("name");
-        assertEquals("name", detail.getName());
-        //size
-        detail.setSize("size");
-        assertEquals("size", detail.getSize());
         //raids
         detail.setRaids(1);
         assertEquals(1, (Object) detail.getRaids());
-        //raids
-        detail.setWeight(1);
-        assertEquals(1, (Object) detail.getWeight());
         //bplas
         Set<Bpla> set = new HashSet<Bpla>(5);
         for (Long i : new Long[] {1L, 2L, 3L, 4L, 5L}) {
             set.add(new Bpla(i));
         }
+        detail.setBplas(set);
+        assertEquals("условие вхождения", true, set.containsAll(detail.getBplas()));
+        detail.getBplas().removeAll(set);
+        assertEquals("условие неизбыточности", true, detail.getBplas().isEmpty());
     }
 
     @After

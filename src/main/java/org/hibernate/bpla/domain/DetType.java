@@ -26,7 +26,21 @@ public class DetType {
 
     private Set<Detail> details = new HashSet();
 
-    @OneToMany(mappedBy = "detType")
+    public DetType() {
+    }
+
+    public DetType(Long id) {
+        this.id = id;
+    }
+
+    public DetType(Long id, String name, Integer weight, String size) {
+        this.id = id;
+        this.name = name;
+        this.weight = weight;
+        this.size = size;
+    }
+
+    @OneToMany(mappedBy = "detType", fetch = FetchType.EAGER)
     public Set<Detail> getDetails() {
         return details;
     }

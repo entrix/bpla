@@ -1,6 +1,7 @@
 package org.hibernate.bpla.persistence;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.bpla.domain.Bpla;
 import org.hibernate.bpla.domain.Detail;
@@ -13,6 +14,8 @@ public class BplaService {
 
     private static BplaService bplaService = null;
 
+    private SessionFactory sessionFactory;
+
     private Session session = null;
 
     static {
@@ -21,6 +24,10 @@ public class BplaService {
 
     public static BplaService getBplaService() {
         return bplaService;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public Bpla createBpla(Long id, String location, String state) throws Exception {
@@ -73,7 +80,7 @@ public class BplaService {
     }
 
     public void startSession() {
-        session = HibernateUtil.getSession();
+        session = sessionFactory.getCurrentSession();
     }
 
     public void endSession() {
@@ -94,7 +101,7 @@ public class BplaService {
         Transaction tx = null;
 //        Bpla bpla = null;
         try {
-            tx = session.beginTransaction();
+//            tx = session.beginTransaction();
             switch (operation) {
                 case 0:
 //                    Boolean isNull = false;
@@ -124,7 +131,7 @@ public class BplaService {
                     session.clear();
                     break;
             }
-            tx.commit();
+//            tx.commit();
         }
         catch (Exception e) {
             if (tx != null) {

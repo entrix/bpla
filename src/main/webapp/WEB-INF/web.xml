@@ -1,0 +1,116 @@
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+
+    <!--<context-param>-->
+    <!--<param-name>webAppRootKey</param-name>-->
+    <!--<param-value>bpla.root</param-value>-->
+    <!--</context-param>-->
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+
+        <param-value>/WEB-INF/spring/applicationContext-hibernate.xml</param-value>
+
+        <!--
+              To use the JPA variant above, you will need to enable Spring load-time
+              weaving in your server environment. Out of the box, Spring will try to
+              detect the running environment and use the appropriate weaver but if that
+              fails, one must enable one by hand or use the VM-wide weaver.
+              See PetClinic's readme and/or Spring's JPA documentation for more information.
+          -->
+    </context-param>
+
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/log4j.properties</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>bpla</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <filter>
+        <filter-name>httpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>httpMethodFilter</filter-name>
+        <servlet-name>bpla</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>SetCharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SetCharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!--
+       Defines the 'default' servlet (usually for service static resources).
+       Uncomment this in containers (GlassFish) that do not declare this
+       implicit definition out of the box, or change the name of the servlet mapping
+       below to the appropriate one.
+    -->
+
+    <servlet>
+        <servlet-name>static</servlet-name>
+        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>listings</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>bpla</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--
+     - Map static resources to the default servlet
+     - examples:
+     -     http://localhost:8080/static/images/pets.png
+     -     http://localhost:8080/static/styles/meteo.css
+    -->
+
+    <servlet-mapping>
+        <servlet-name>static</servlet-name>
+        <url-pattern>/static/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>bpla</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>
+        </welcome-file>
+    </welcome-file-list>
+
+</web-app>
+
